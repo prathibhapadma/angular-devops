@@ -15,6 +15,11 @@ stages:
         workspace:
           clean: all
         steps:
+          - task: CmdLine@2
+            inputs:
+              script: |
+                node -v
+                npm -v
           - task: NodeTool@0
             inputs:
               versionSpec: "16.x"
@@ -50,7 +55,11 @@ stages:
 
           - task: PublishBuildArtifacts@1
             displayName: "Publish Artifact"
-
+          - task: CmdLine@2
+            inputs:
+              script: |
+                node -v
+                npm -v
   # - stage: Deploy
   #   dependsOn: Build
   #   condition: succeeded('Build')
