@@ -8,8 +8,7 @@ trigger:
 
 stages:
   - stage: Build
-    pool:
-      vmImage: 'windows-latest'
+    pool: 'self-hosted-machine'
     jobs:
       - job: Build
         displayName: "Angular App Build"
@@ -52,27 +51,27 @@ stages:
           - task: PublishBuildArtifacts@1
             displayName: "Publish Artifact"
 
-  - stage: Deploy
-    dependsOn: Build
-    condition: succeeded('Build')
-    variables:
-      - group: SECRET-DEV
-      - group: VGRP-DEV
-    pool:
-      vmImage: 'windows-latest'
-    jobs:
-      - deployment: Deploy
-        displayName: Deploy to Azure
-        environment: DEV
-        strategy:
-          runOnce:
-            deploy:
-              steps:
-                - task: AzureCLI@2
-                  displayName: "Deploy Angular app"
-                  inputs:
-                    azureSubscription: $(azureSubscription)
-                    scriptType: batch
-                    scriptLocation: inlineScript
-                    inlineScript: |
-                      az storage blob upload-batch --overwrite -d $web --account-name $(storageAccount) --account-key $(accountkey) -s "$(Agent.BuildDirectory)\\drop\\dist"
+  # - stage: Deploy
+  #   dependsOn: Build
+  #   condition: succeeded('Build')
+  #   variables:
+  #     - group: SECRET-DEV
+  #     - group: VGRP-DEV
+  #   pool:
+  #     vmImage: 'windows-latest'
+  #   jobs:
+  #     - deployment: Deploy
+  #       displayName: Deploy to Azure
+  #       environment: DEV
+  #       strategy:
+  #         runOnce:
+  #           deploy:
+  #             steps:
+  #               - task: AzureCLI@2
+  #                 displayName: "Deploy Angular app"
+  #                 inputs:
+  #                   azureSubscription: $(azureSubscription)
+  #                   scriptType: batch
+  #                   scriptLocation: inlineScript
+  #                   inlineScript: |
+  #                     az storage blob upload-batch --overwrite -d $web --account-name $(storageAccount) --account-key $(accountkey) -s "$(Agent.BuildDirectory)\\drop\\dist"
