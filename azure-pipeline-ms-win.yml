@@ -15,18 +15,18 @@ pool: 'self-hosted-machine'
 #         workspace:
 #           clean: all
 steps:
-  - task: CmdLine@2
-    inputs:
-      script: |
-        node -v
-        npm -v
-    continueOnError: true  
-  - task: PowerShell@2
-    inputs:
-      targetType: 'inline'
-      script: |
-        node -v
-        npm -v
+  # - task: CmdLine@2
+  #   inputs:
+  #     script: |
+  #       node -v
+  #       npm -v
+  #   continueOnError: true  
+  # - task: PowerShell@2
+  #   inputs:
+  #     targetType: 'inline'
+  #     script: |
+  #       node -v
+  #       npm -v
   - task: NodeTool@0
     inputs:
       versionSpec: "16.x"
