@@ -3,64 +3,70 @@
 # Add steps that analyze code, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
 
-trigger:
-  - main
+trigger: none
 
-stages:
-  - stage: Build
-    pool: 'self-hosted-machine'
-    jobs:
-      - job: Build
-        displayName: "Angular App Build"
-        workspace:
-          clean: all
-        steps:
-          - task: CmdLine@2
-            inputs:
-              script: |
-                node -v
-                npm -v
-            continueOnError: true    
-          - task: NodeTool@0
-            inputs:
-              versionSpec: "16.x"
-            displayName: "Install Node.js"
+pool: 'self-hosted-machine'
+# stages:
+#   - stage: Build
+#     pool: 'self-hosted-machine'
+#     jobs:
+#       - job: Build
+#         displayName: "Angular App Build"
+#         workspace:
+#           clean: all
+steps:
+  - task: CmdLine@2
+    inputs:
+      script: |
+        node -v
+        npm -v
+    continueOnError: true  
+  - task: PowerShell@2
+    inputs:
+      targetType: 'inline'
+      script: |
+        node -v
+        npm -v
+  - task: NodeTool@0
+    inputs:
+      versionSpec: "16.x"
+    displayName: "Install Node.js"
 
-          - task: Npm@1
-            inputs:
-              command: "install"
-            displayName: "Npm Install"
+  - task: Npm@1
+    inputs:
+      command: "install"
+    displayName: "Npm Install"
 
-          - task: Npm@1
-            inputs:
-              command: custom
-              customCommand: "run build"
-            displayName: "Build Angular app"
+  - task: Npm@1
+    inputs:
+      command: custom
+      customCommand: "run build"
+    displayName: "Build Angular app"
 
-          # - task: Npm@1
-          #   inputs:
-          #     command: custom
-          #     customCommand: "run test"
-          #   displayName: "Test Angular app"
+  # - task: Npm@1
+  #   inputs:
+  #     command: custom
+  #     customCommand: "run test"
+  #   displayName: "Test Angular app"
 
-          - task: Npm@1
-            inputs:
-              command: custom
-              customCommand: "run lint"
-            displayName: "Lint Angular app"
+  - task: Npm@1
+    inputs:
+      command: custom
+      customCommand: "run lint"
+    displayName: "Lint Angular app"
 
-          - script: |
-              mkdir $(Build.ArtifactStagingDirectory)\\dist
-              xcopy "dist\\sample-app" $(Build.ArtifactStagingDirectory)\\dist /E/H/C
-            displayName: Copy dist contents
+  - script: |
+      mkdir $(Build.ArtifactStagingDirectory)\\dist
+      xcopy "dist\\sample-app" $(Build.ArtifactStagingDirectory)\\dist /E/H/C
+    displayName: Copy dist contents
 
-          - task: PublishBuildArtifacts@1
-            displayName: "Publish Artifact"
-          - task: CmdLine@2
-            inputs:
-              script: |
-                node -v
-                npm -v
+  - task: PublishBuildArtifacts@1
+    displayName: "Publish Artifact"
+  - task: CmdLine@2
+    inputs:
+      script: |
+        node -v
+        npm -v
   # - stage: Deploy
   #   dependsOn: Build
   #   condition: succeeded('Build')
