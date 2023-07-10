@@ -1,3 +1,8 @@
+# Node.js with Angular
+# Build a Node.js project that uses Angular.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
 trigger: none
 
 pool: 'self-hosted-machine'
@@ -9,13 +14,14 @@ pool: 'self-hosted-machine'
 #         displayName: "Angular App Build"
 #         workspace:
 #           clean: all
-steps:
+steps:  
   - task: PowerShell@2
     inputs:
       targetType: 'inline'
       script: |
         node -v
         npm -v
+
   # - task: NodeTool@0
   #   inputs:
   #     versionSpec: "16.x"
@@ -29,6 +35,12 @@ steps:
       command: custom
       customCommand: "run build"
     displayName: "Build Angular app"
+  # - task: Npm@1
+  #   inputs:
+  #     command: custom
+  #     customCommand: "run test"
+  #   displayName: "Test Angular app"
+
   - task: Npm@1
     inputs:
       command: custom
@@ -39,6 +51,7 @@ steps:
       mkdir $(Build.ArtifactStagingDirectory)\\dist
       xcopy "dist\\sample-app" $(Build.ArtifactStagingDirectory)\\dist /E/H/C
     displayName: Copy dist contents
+
   - task: PublishBuildArtifacts@1
     displayName: "Publish Artifact"
   - task: CmdLine@2
