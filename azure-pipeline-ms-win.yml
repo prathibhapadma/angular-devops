@@ -24,12 +24,12 @@ steps:
         node -v
         npm -v
     continueOnError: true  
-  # - task: PowerShell@2
-  #   inputs:
-  #     targetType: 'inline'
-  #     script: |
-  #       node -v
-  #       npm -v
+  - task: PowerShell@2
+    inputs:
+      targetType: 'inline'
+      script: |
+        node -v
+        npm -v
   # - task: NodeTool@0
   #   inputs:
   #     versionSpec: "16.x"
@@ -40,36 +40,36 @@ steps:
   #     command: "install"
   #   displayName: "Npm Install"
 
-  # - task: Npm@1
-  #   inputs:
-  #     command: custom
-  #     customCommand: "run build"
-  #   displayName: "Build Angular app"
-
-  # # - task: Npm@1
-  # #   inputs:
-  # #     command: custom
-  # #     customCommand: "run test"
-  # #   displayName: "Test Angular app"
+  - task: Npm@1
+    inputs:
+      command: custom
+      customCommand: "run build"
+    displayName: "Build Angular app"
 
   # - task: Npm@1
   #   inputs:
   #     command: custom
-  #     customCommand: "run lint"
-  #   displayName: "Lint Angular app"
+  #     customCommand: "run test"
+  #   displayName: "Test Angular app"
 
-  # - script: |
-  #     mkdir $(Build.ArtifactStagingDirectory)\\dist
-  #     xcopy "dist\\sample-app" $(Build.ArtifactStagingDirectory)\\dist /E/H/C
-  #   displayName: Copy dist contents
+  - task: Npm@1
+    inputs:
+      command: custom
+      customCommand: "run lint"
+    displayName: "Lint Angular app"
 
-  # - task: PublishBuildArtifacts@1
-  #   displayName: "Publish Artifact"
-  # - task: CmdLine@2
-  #   inputs:
-  #     script: |
-  #       node -v
-  #       npm -v
+  - script: |
+      mkdir $(Build.ArtifactStagingDirectory)\\dist
+      xcopy "dist\\sample-app" $(Build.ArtifactStagingDirectory)\\dist /E/H/C
+    displayName: Copy dist contents
+
+  - task: PublishBuildArtifacts@1
+    displayName: "Publish Artifact"
+  - task: CmdLine@2
+    inputs:
+      script: |
+        node -v
+        npm -v
 
   # - stage: Deploy
   #   dependsOn: Build
