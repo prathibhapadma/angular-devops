@@ -19,10 +19,11 @@ steps:
     inputs:
       script: |
         dir
-        git 
-        git -v
-        node -v
-        npm -v
+        echo "$(Build.SourcesDirectory)"
+          # git 
+          # git -v
+          # node -v
+          # npm -v
     continueOnError: true  
   - task: PowerShell@2
     inputs:
@@ -30,21 +31,36 @@ steps:
       script: |
         node -v
         npm -v
+
   # - task: NodeTool@0
   #   inputs:
   #     versionSpec: "16.x"
   #   displayName: "Install Node.js"
-
-  # - task: Npm@1
-  #   inputs:
-  #     command: "install"
-  #   displayName: "Npm Install"
-
+  - task: Npm@1
+    inputs:
+      command: "install"
+    displayName: "Npm Install"
   - task: Npm@1
     inputs:
       command: custom
       customCommand: "run build"
     displayName: "Build Angular app"
+
+  # - task: Npm@1
+  #   displayName: 'Frontend - npm - install'
+  #   enabled: true
+  #   inputs:
+  #     command: 'custom'
+  #     workingDir: '$(Build.SourcesDirectory)/frontend'
+  #     customCommand: 'install --no-optional'
+
+  # - task: Npm@1
+  #   displayName: 'Frontend - npm - run build'
+  #   enabled: true
+  #   inputs:
+  #     command: 'custom'
+  #     workingDir: '$(Build.SourcesDirectory)/frontend'
+  #     customCommand: 'run build'
 
   # - task: Npm@1
   #   inputs:
