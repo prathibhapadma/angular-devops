@@ -4,7 +4,7 @@ on:
       # - main
   workflow_dispatch:
 env:
-  front_end_cache: ${{ github.workspace }}
+  front_end_cache: ${GITHUB_WORKSPACE} 
 jobs:
   build:
     runs-on: windows-latest
