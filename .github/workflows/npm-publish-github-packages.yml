@@ -34,6 +34,11 @@ jobs:
         node -v
         npm -v
       shell: cmd  
+    - name: Publish Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: BuildOutput
+        path: dist/sample-app/*
 #     - name: Copy dist contents
 #       run: |
 #         mkdir ${GITHUB_WORKSPACE}/dist
