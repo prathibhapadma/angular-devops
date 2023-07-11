@@ -55,7 +55,7 @@ steps:
     displayName: "Lint Angular app"
   - task: CopyFiles@2
     inputs:
-      SourceFolder: '$(Build.ArtifactStagingDirectory/dist'
+      SourceFolder: '$(Build.ArtifactStagingDirectory/dist/sample-app'
       Contents: '**'
       TargetFolder: '$(Build.ArtifactStagingDirectory)'
       CleanTargetFolder: true
