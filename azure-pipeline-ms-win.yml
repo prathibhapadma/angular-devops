@@ -53,22 +53,22 @@ steps:
       customCommand: "run lint"
       workingDir: '$(front_end_cache)'
     displayName: "Lint Angular app"
-  - task: CopyFiles@2
-    inputs:
-      SourceFolder: '$(Build.ArtifactStagingDirectory/dist/sample-app'
-      Contents: '**'
-      TargetFolder: '$(Build.ArtifactStagingDirectory)'
-      CleanTargetFolder: true
-      flattenFolders: true
+  # - task: CopyFiles@2
+  #   inputs:
+  #     SourceFolder: '$(Build.ArtifactStagingDirectory/dist/sample-app'
+  #     Contents: '**'
+  #     TargetFolder: '$(Build.ArtifactStagingDirectory)'
+  #     CleanTargetFolder: true
+  #     flattenFolders: true
+  - script: |
+      mkdir $(Build.ArtifactStagingDirectory)\\dist
+      xcopy "dist\\sample-app" $(Build.ArtifactStagingDirectory)\\dist /E/H/C
+    displayName: Copy dist contents
   - task: PublishBuildArtifacts@1
     inputs:
       PathtoPublish: $(Build.ArtifactStagingDirectory)
       ArtifactName: DemoApplication
-      publishLocation: Container
-  # - script: |
-  #     mkdir $(Build.ArtifactStagingDirectory)\\dist
-  #     xcopy "dist\\sample-app" $(Build.ArtifactStagingDirectory)\\dist /E/H/C
-  #   displayName: Copy dist contents
+      publishLocation: Container  
   # - task: PublishBuildArtifacts@1
   #   displayName: "Publish Artifact"
   - task: CmdLine@2
