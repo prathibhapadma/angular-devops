@@ -1,7 +1,8 @@
 on:
   push:
-    branches:
-    - none
+    branches: none
+      # - main
+  workflow_dispatch:
 env:
   front_end_cache: ${{ github.workspace }}
 jobs:
