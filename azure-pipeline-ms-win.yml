@@ -39,14 +39,24 @@ steps:
       command: custom
       customCommand: "run lint"
     displayName: "Lint Angular app"
-
-  - script: |
-      mkdir $(Build.ArtifactStagingDirectory)\\dist
-      xcopy "dist\\sample-app" $(Build.ArtifactStagingDirectory)\\dist /E/H/C
-    displayName: Copy dist contents
-
+  - task: CopyFiles@2
+    inputs:
+      SourceFolder: '$(Build.ArtifactStagingDirectory/dist'
+      Contents: '**'
+      TargetFolder: '$(Build.ArtifactStagingDirectory)'
+      CleanTargetFolder: true
+      flattenFolders: true
   - task: PublishBuildArtifacts@1
-    displayName: "Publish Artifact"
+    inputs:
+      PathtoPublish: $(Build.ArtifactStagingDirectory)
+      ArtifactName: DemoApplication
+      publishLocation: Container
+  # - script: |
+  #     mkdir $(Build.ArtifactStagingDirectory)\\dist
+  #     xcopy "dist\\sample-app" $(Build.ArtifactStagingDirectory)\\dist /E/H/C
+  #   displayName: Copy dist contents
+  # - task: PublishBuildArtifacts@1
+  #   displayName: "Publish Artifact"
   - task: CmdLine@2
     inputs:
       script: |
