@@ -1,0 +1,41 @@
+on:
+  push:
+    branches:
+    - none
+env:
+  front_end_cache: ${{ github.workspace }}
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: cache for frontend
+      uses: actions/cache@v3
+      with:
+        key: ${{ github.workspace }}/package-lock.json
+        #restore-keys: 
+        path: ${{ env.front_end_cache }}
+    - name: Install Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: 16.x
+    - name: Npm Install
+      run: npm install ${{ env.front_end_cache }}
+    - name: Build Angular app
+      run: npm run build ${{ env.front_end_cache }}
+    - name: Lint Angular app
+      run: npm run lint ${{ env.front_end_cache }}
+    - name: Copy dist contents
+      run: |
+        mkdir ${{ github.workspace }}\\dist
+        xcopy "dist\\sample-app" ${{ github.workspace }}\\dist /E/H/C
+    - uses: actions/upload-artifact@v2
+      with:
+        path: ${{ github.workspace }}
+        name: DemoApplication
+    - run: |
+        node -v
+        npm -v
+      shell: cmd
+                    
