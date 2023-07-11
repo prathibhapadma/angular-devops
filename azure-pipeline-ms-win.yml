@@ -1,6 +1,10 @@
 trigger: none
 
+variables:
+  front_end_cache: '$(Build.SourcesDirectory)'
+
 pool: 'self-hosted-agent-win'
+
 # stages:
 #   - stage: Build
 #     pool: 'self-hosted-machine'
@@ -9,11 +13,12 @@ pool: 'self-hosted-agent-win'
 #         displayName: "Angular App Build"
 #         workspace:
 #           clean: all
+
 steps:  
   - task: Cache@2
     displayName: 'cache for frontend'
     inputs:
-      key: $(Build.SourcesDirectory)/frontend/package-lock.json
+      key: $(Build.SourcesDirectory)/package-lock.json
       path: '$(front_end_cache)'
       cacheHitVar: 'CACHE_RESTORED'
   - task: PowerShell@2
