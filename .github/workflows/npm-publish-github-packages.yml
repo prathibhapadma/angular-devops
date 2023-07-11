@@ -27,16 +27,19 @@ jobs:
       run: npm run build ${{ env.front_end_cache }}
     - name: Lint Angular app
       run: npm run lint ${{ env.front_end_cache }}
-    - name: Copy dist contents
-      run: |
-        mkdir ${GITHUB_WORKSPACE}\\dist
-        xcopy "dist\\sample-app" ${GITHUB_WORKSPACE}\\dist /E/H/C
-    - uses: actions/upload-artifact@v2
-      with:
-        path: ${GITHUB_WORKSPACE}
-        name: DemoApplication
     - run: |
+        dir
         node -v
         npm -v
-      shell: cmd
+      shell: cmd  
+    - name: Copy dist contents
+      run: |
+        mkdir ${GITHUB_WORKSPACE}/dist
+        xcopy "dist/sample-app" ${GITHUB_WORKSPACE}/dist /E/H/C      
+    - name: Publish Artifact 
+      uses: actions/upload-artifact@v2
+      with:
+        path: ${GITHUB_WORKSPACE}\\dist
+        name: DemoApplication
+
                     
