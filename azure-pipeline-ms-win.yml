@@ -53,6 +53,12 @@ steps:
       customCommand: "run lint"
       workingDir: '$(front_end_cache)'
     displayName: "Lint Angular app"
+  - task: CmdLine@2
+    inputs:
+      script: |
+        dir
+        node -v
+        npm -v  
   # - task: CopyFiles@2
   #   inputs:
   #     SourceFolder: '$(Build.ArtifactStagingDirectory/dist/sample-app'
