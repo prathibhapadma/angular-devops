@@ -3,7 +3,7 @@ trigger: none
 variables:
   front_end_cache: '$(Build.SourcesDirectory)'
 
-pool: 'self-hosted-agent-win'
+pool: 'self-hosted'
 
 # stages:
 #   - stage: Build
