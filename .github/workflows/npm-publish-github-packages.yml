@@ -29,11 +29,11 @@ jobs:
       run: npm run lint ${{ env.front_end_cache }}
     - name: Copy dist contents
       run: |
-        mkdir ${{ github.workspace }}\\dist
-        xcopy "dist\\sample-app" ${{ github.workspace }}\\dist /E/H/C
+        mkdir ${GITHUB_WORKSPACE}\\dist
+        xcopy "dist\\sample-app" ${GITHUB_WORKSPACE}\\dist /E/H/C
     - uses: actions/upload-artifact@v2
       with:
-        path: ${{ github.workspace }}
+        path: ${GITHUB_WORKSPACE}
         name: DemoApplication
     - run: |
         node -v
