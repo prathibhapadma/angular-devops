@@ -1,6 +1,6 @@
 trigger: none
 
-pool: 'self-hosted-machine'
+pool: 'self-hosted-agent-win'
 # stages:
 #   - stage: Build
 #     pool: 'self-hosted-machine'
